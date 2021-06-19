@@ -1,63 +1,59 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
+
+	"github.com/humbertoatondo/pokemon-api/helpers"
+	"github.com/humbertoatondo/pokemon-api/pokemon"
 )
 
-// type Pokemon struct {
-// 	Name   string        `json:"name"`
-// 	Ptypes []pokemonType `json:"types"`
-// }
-
-// type pokemonType struct {
-// 	Slot int            `json:"slot"`
-// 	Type pokemonSubType `json:"type"`
-// }
-
-// type pokemonSubType struct {
-// 	Name string `json:"name"`
-// 	URL  string `json:"url"`
-// }
+type advantage struct {
+	Pokemon            pokemon.Pokemon        `json:"pokemon"`
+	RivalPokemon       pokemon.Pokemon        `json:"rival_pokemon"`
+	ComparisionResults pokemon.CompareResults `json:"comparision_results"`
+}
 
 func (app *App) comparePokemons(w http.ResponseWriter, r *http.Request) {
-	// Extract pokemon names from url.
-	pokemon1Keys, ok := r.URL.Query()["pokemon1"]
+
+	pokemon1Name, ok := helpers.ParseKeyFromURL("pokemon1", r)
 	if !ok {
-		respondWithError(w, 400, "Url param 'pokemon1' is missing.")
+		helpers.RespondWithError(w, http.StatusBadRequest, "Url param 'pokemon1' is missing.")
 		return
 	}
 
-	pokemon2Keys, ok := r.URL.Query()["pokemon2"]
+	pokemon2Name, ok := helpers.ParseKeyFromURL("pokemon2", r)
 	if !ok {
-		respondWithError(w, 400, "Url param 'pokemon2' is missing.")
+		helpers.RespondWithError(w, http.StatusBadRequest, "Url param 'pokemon2' is missing.")
 		return
 	}
 
-	pokemon1 := pokemon1Keys[0]
-	pokemon2 := pokemon2Keys[0]
-
-	fmt.Printf("Pokemon 1: %s\n", pokemon1)
-	fmt.Printf("Pokemon 2: %s\n", pokemon2)
 	// =====================================================
 
 	// Get pokemon types.
+	pokemon1, err := pokemon.GetPokemon(pokemon1Name)
+	if err != nil {
+		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
+		return
+	}
 
-	// url := fmt.Sprintf("https://pokeapi.co/api/v2/pokemon/%s", pokemon1)
-	// response, err := http.Get(url)
-	// if err != nil {
-	// 	respondWithError(w, response.StatusCode, response.Status)
-	// 	return
-	// }
+	pokemon2, err := pokemon.GetPokemon(pokemon2Name)
+	if err != nil {
+		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
+		return
+	}
 
-	// defer response.Body.Close()
+	// Compare pokemons
+	comparisionResults, err := pokemon1.CompareTo(pokemon2)
+	if err != nil {
+		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
+		return
+	}
 
-	// var pokemon = Pokemon{}
-	// if err = json.NewDecoder(response.Body).Decode(&pokemon); err != nil {
-	// 	panic(err)
-	// }
+	advantageResult := advantage{
+		Pokemon:            pokemon1,
+		RivalPokemon:       pokemon2,
+		ComparisionResults: comparisionResults,
+	}
 
-	// =====================================================
-
-	respondWithJSON(w, 200, "Comparing Pokemons!")
+	helpers.RespondWithJSON(w, 200, advantageResult)
 }
