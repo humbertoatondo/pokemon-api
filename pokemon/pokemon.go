@@ -15,20 +15,23 @@ type Pokemon struct {
 	Moves []pokemonMove `json:"moves"`
 }
 
+// Stores the pokemonTypeData of a pokemon.
 type pokemonType struct {
-	Slot int             `json:"slot"`
 	Type pokemonTypeData `json:"type"`
 }
 
+// Stores the type name of a pokemon as well as its pokeapi url.
 type pokemonTypeData struct {
 	Name string `json:"name"`
 	URL  string `json:"url"`
 }
 
+// Stores the name of a pokemon move
 type pokemonMove struct {
 	Move MoveData `json:"move"`
 }
 
+// Stores the transalated name of a pokemon move.
 type transMoves struct {
 	Names []MoveData `json:"names"`
 }
@@ -47,16 +50,24 @@ type CompareResults struct {
 	ReceivesNoDamage   bool `json:"receives_no_damage"`
 }
 
+// Stores the results obtained by the different damage realtions.
 type pokemonDamageRelations struct {
 	DamageRelations damageRelations `json:"damage_relations"`
 }
 
+// Stores the damage relations between two pokemons.
+// This relations can be:
+//   - Pokemon1 can deal dobule damage to pokemon2.
+//   - Pokemon1 can receive half damage from pokemon2.
+//   - Pokemon1 can receive no damage from pokemon2.
 type damageRelations struct {
 	DoubleDamageToList []damageTypeName `json:"double_damage_to"`
 	HalfDamageFromList []damageTypeName `json:"half_damage_from"`
 	NoDamageFromList   []damageTypeName `json:"no_damage_from"`
 }
 
+// Stores the type name.
+// For example: rock | steel | ghost
 type damageTypeName struct {
 	Type string `json:"name"`
 }
@@ -207,6 +218,8 @@ func GetCommonMovesForPokemons(pokemons []Pokemon, limit int) []MoveData {
 	return commonMoves
 }
 
+// TranslatePokemonMoves receives a list of pokemon moves and a language and translate
+// every move to the desired language.
 func TranslatePokemonMoves(pokemonMoves []MoveData, lang string) ([]MoveData, error) {
 	if lang == "en" {
 		return pokemonMoves, nil
