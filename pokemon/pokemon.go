@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/humbertoatondo/pokemon-api/helpers"
 )
 
-// Pokemon stores the name of a pokemon and its type.
+// Pokemon stores the name of a pokemon, its types and its moves.
 type Pokemon struct {
 	Name  string        `json:"name"`
 	Types []pokemonType `json:"types"`
@@ -24,11 +26,17 @@ type pokemonTypeData struct {
 }
 
 type pokemonMove struct {
-	Move pokemonMoveData `json:"move"`
+	Move MoveData `json:"move"`
 }
 
-type pokemonMoveData struct {
+type transMoves struct {
+	Names []MoveData `json:"names"`
+}
+
+// MoveData stores the name and the pokeapi url of a pokemon move.
+type MoveData struct {
 	Name string `json:"name"`
+	URL  string `json:"url"`
 }
 
 // CompareResults stores boolean values to indicate if a certain pokemon
@@ -164,30 +172,61 @@ func GetPokemonsFromListOfNames(pokemonNames []string) ([]Pokemon, error) {
 
 // GetCommonMovesForPokemons receives a list of pokemons and returns
 // a list with all the common moves between this pokemons.
-func GetCommonMovesForPokemons(pokemons []Pokemon) []string {
-	var commonMoves []string
-	movesMap := make(map[string]int)
+func GetCommonMovesForPokemons(pokemons []Pokemon, limit int) []MoveData {
+
+	var commonMoves []MoveData
+	movesCountMap := make(map[string]int)
+	movesMap := make(map[string]MoveData)
 
 	// Build commonMoves map
 	for i, pokemon := range pokemons {
 		for _, pMove := range pokemon.Moves {
 			pokemonName := pMove.Move.Name
-			_, ok := movesMap[pokemonName]
+			_, ok := movesCountMap[pokemonName]
 			if i > 0 && !ok {
 				continue
 			} else {
-				movesMap[pokemonName]++
+				movesCountMap[pokemonName]++
+				movesMap[pokemonName] = pMove.Move
 			}
 		}
 	}
 
 	// Get common moves from map
 	size := len(pokemons)
-	for key, value := range movesMap {
+	for key, value := range movesCountMap {
 		if value == size {
-			commonMoves = append(commonMoves, key)
+			commonMoves = append(commonMoves, movesMap[key])
+			limit--
+		}
+		if limit == 0 {
+			break
 		}
 	}
 
 	return commonMoves
+}
+
+func TranslatePokemonMoves(pokemonMoves []MoveData, lang string) ([]MoveData, error) {
+	if lang == "en" {
+		return pokemonMoves, nil
+	}
+
+	langIdx := helpers.LanguageMap[lang]
+
+	for i, pokemonMove := range pokemonMoves {
+		url := pokemonMove.URL
+		response, err := http.Get(url)
+		if err != nil {
+			return make([]MoveData, 0), err
+		}
+
+		var tMoves transMoves
+		if err = json.NewDecoder(response.Body).Decode(&tMoves); err != nil {
+			return make([]MoveData, 0), err
+		}
+
+		pokemonMoves[i].Name = tMoves.Names[langIdx].Name
+	}
+	return pokemonMoves, nil
 }

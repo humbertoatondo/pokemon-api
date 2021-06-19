@@ -5,6 +5,21 @@ import (
 	"net/http"
 )
 
+// LanguageMap is used to reference the available languages
+// for pokemon moves.
+var LanguageMap = map[string]int{
+	"ja-Hrkt": 0,
+	"ko":      1,
+	"zh-Hant": 2,
+	"fr":      3,
+	"de":      4,
+	"es":      5,
+	"it":      6,
+	"en":      7,
+	"ja":      8,
+	"zh-Hans": 9,
+}
+
 // ParseKeyFromURL retreives the value for a parameter in the url.
 func ParseKeyFromURL(key string, r *http.Request) (string, bool) {
 	keys, ok := r.URL.Query()[key]
