@@ -22,4 +22,5 @@ func (app *App) Run(port string) {
 
 func (app *App) initializeRoutes() {
 	app.Router.HandleFunc("/comparePokemons", app.comparePokemons).Methods("GET")
+	app.Router.HandleFunc("/comparePokemonsMoves", app.comparePokemonMoves).Methods("GET")
 }

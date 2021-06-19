@@ -8,18 +8,27 @@ import (
 
 // Pokemon stores the name of a pokemon and its type.
 type Pokemon struct {
-	Name         string        `json:"name"`
-	PokemonTypes []pokemonType `json:"types"`
+	Name  string        `json:"name"`
+	Types []pokemonType `json:"types"`
+	Moves []pokemonMove `json:"moves"`
 }
 
 type pokemonType struct {
-	Slot int            `json:"slot"`
-	Type pokemonSubType `json:"type"`
+	Slot int             `json:"slot"`
+	Type pokemonTypeData `json:"type"`
 }
 
-type pokemonSubType struct {
+type pokemonTypeData struct {
 	Name string `json:"name"`
 	URL  string `json:"url"`
+}
+
+type pokemonMove struct {
+	Move pokemonMoveData `json:"move"`
+}
+
+type pokemonMoveData struct {
+	Name string `json:"name"`
 }
 
 // CompareResults stores boolean values to indicate if a certain pokemon
@@ -77,12 +86,9 @@ func GetPokemon(pokemonName string) (Pokemon, error) {
 //   - Current pokemon can receive half damage from rival pokemon.
 //   - Current pokemon can receive no damage from rival pokemon.
 func (pokemon *Pokemon) CompareTo(rivalPokemon Pokemon) (CompareResults, error) {
-	var compareResults = CompareResults{
-		DealsDoubleDamage:  false,
-		ReceivesHalfDamage: false,
-		ReceivesNoDamage:   false,
-	}
-	for _, pType := range pokemon.PokemonTypes {
+	var compareResults = CompareResults{}
+
+	for _, pType := range pokemon.Types {
 		url := pType.Type.URL
 
 		response, err := http.Get(url)
@@ -113,7 +119,7 @@ func (pokemon *Pokemon) CompareTo(rivalPokemon Pokemon) (CompareResults, error) 
 //   - If dType is set to doubleDamageDealt then we will return true if the current pokemon
 //     can deal double damage to the rival pokemon, else return false.
 func (pokemonDamageRelations *pokemonDamageRelations) compareDamages(rivalPokemon Pokemon, dType damageType) bool {
-	var rivalPokemonTypeList = rivalPokemon.PokemonTypes
+	var rivalPokemonTypeList = rivalPokemon.Types
 	var damageTypeNameList []damageTypeName
 
 	switch dType {
@@ -131,10 +137,57 @@ func (pokemonDamageRelations *pokemonDamageRelations) compareDamages(rivalPokemo
 	for _, damage := range damageTypeNameList {
 		for _, rivalPokemonType := range rivalPokemonTypeList {
 			if damage.Type == rivalPokemonType.Type.Name {
-				fmt.Printf("")
 				return true
 			}
 		}
 	}
 	return false
+}
+
+// GetPokemonsFromListOfNames receives a list with pokemon names and calls
+// the function GetPokemon for every pokemon name in the list to get the
+// pokemon's data.
+func GetPokemonsFromListOfNames(pokemonNames []string) ([]Pokemon, error) {
+	size := len(pokemonNames)
+	pokemons := make([]Pokemon, size)
+
+	for i, pokemonName := range pokemonNames {
+		pokemon, err := GetPokemon(pokemonName)
+		if err != nil {
+			return make([]Pokemon, 0), err
+		}
+		pokemons[i] = pokemon
+	}
+
+	return pokemons, nil
+}
+
+// GetCommonMovesForPokemons receives a list of pokemons and returns
+// a list with all the common moves between this pokemons.
+func GetCommonMovesForPokemons(pokemons []Pokemon) []string {
+	var commonMoves []string
+	movesMap := make(map[string]int)
+
+	// Build commonMoves map
+	for i, pokemon := range pokemons {
+		for _, pMove := range pokemon.Moves {
+			pokemonName := pMove.Move.Name
+			_, ok := movesMap[pokemonName]
+			if i > 0 && !ok {
+				continue
+			} else {
+				movesMap[pokemonName]++
+			}
+		}
+	}
+
+	// Get common moves from map
+	size := len(pokemons)
+	for key, value := range movesMap {
+		if value == size {
+			commonMoves = append(commonMoves, key)
+		}
+	}
+
+	return commonMoves
 }

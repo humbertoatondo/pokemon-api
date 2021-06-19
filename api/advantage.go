@@ -27,9 +27,7 @@ func (app *App) comparePokemons(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// =====================================================
-
-	// Get pokemon types.
+	// Get pokemons.
 	pokemon1, err := pokemon.GetPokemon(pokemon1Name)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
