@@ -189,7 +189,7 @@ func GetPokemonsFromListOfNames(pokemonNames []string, httpGet helpers.HTTPGet) 
 // a list with all the common moves between this pokemons.
 func GetCommonMovesForPokemons(pokemons []Pokemon, limit int) []MoveData {
 
-	var commonMoves []MoveData
+	commonMoves := []MoveData{}
 	movesCountMap := make(map[string]int)
 	movesMap := make(map[string]MoveData)
 

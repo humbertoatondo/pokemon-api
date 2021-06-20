@@ -132,6 +132,67 @@ func TestCompareDamages(t *testing.T) {
 	})
 }
 
+func TestGetPokemonsFromListOfNames(t *testing.T) {
+
+}
+
+func TestGetCommonMovesForPokemons(t *testing.T) {
+	response, _ := httpGetPokemon("lucario")
+	var pokemon1 = Pokemon{}
+	if err := json.NewDecoder(response.Body).Decode(&pokemon1); err != nil {
+		t.Error("Error decoding response from 'httpGetPokemon' request.")
+	}
+
+	t.Run("Pokemon List containig one pokemon should return all the moves from that pokemon", func(t *testing.T) {
+		pokemonList := []Pokemon{pokemon1}
+		commonMoves := GetCommonMovesForPokemons(pokemonList, 10)
+
+		movesSize := len(pokemon1.Moves)
+		pokemon1Moves := make([]MoveData, movesSize)
+		for i, pMove := range pokemon1.Moves {
+			pokemon1Moves[i] = pMove.Move
+		}
+
+		assert.ElementsMatch(t, commonMoves, pokemon1Moves)
+	})
+
+	response, _ = httpGetPokemon("ditto")
+	var pokemon2 = Pokemon{}
+	if err := json.NewDecoder(response.Body).Decode(&pokemon2); err != nil {
+		t.Error("Error decoding response from 'httpGetPokemon' request.")
+	}
+
+	t.Run("Common moves from lucario and ditto should return an empty list", func(t *testing.T) {
+		pokemonList := []Pokemon{pokemon1, pokemon2}
+		commonMoves := GetCommonMovesForPokemons(pokemonList, 10)
+
+		pokemonMoves := make([]MoveData, 0)
+
+		assert.ElementsMatch(t, commonMoves, pokemonMoves)
+	})
+
+	response, _ = httpGetPokemon("pikachu")
+	var pokemon3 = Pokemon{}
+	if err := json.NewDecoder(response.Body).Decode(&pokemon3); err != nil {
+		t.Error("Error decoding response from 'httpGetPokemon' request.")
+	}
+
+	t.Run("fdsgsfd", func(t *testing.T) {
+		pokemonList := []Pokemon{pokemon1, pokemon3}
+		commonMoves := GetCommonMovesForPokemons(pokemonList, 10)
+
+		pokemonMoves := []MoveData{
+			MoveData{Name: "thunder-punch", URL: "https://pokeapi.co/api/v2/move/9/"},
+			MoveData{Name: "headbutt", URL: "https://pokeapi.co/api/v2/move/29/"},
+		}
+
+		assert.ElementsMatch(t, commonMoves, pokemonMoves)
+	})
+
+}
+
+// HELPER VARIABLES AND FUNCTIONS ==================================================
+
 var httpGetPokemon = func(pokemonName string) (*http.Response, error) {
 	var typesData []pokemonTypeData
 	var movesData []MoveData
@@ -158,6 +219,19 @@ var httpGetPokemon = func(pokemonName string) (*http.Response, error) {
 			MoveData{Name: "swords-dance", URL: "https://pokeapi.co/api/v2/move/14/"},
 			MoveData{Name: "headbutt", URL: "https://pokeapi.co/api/v2/move/29/"},
 			MoveData{Name: "roar", URL: "https://pokeapi.co/api/v2/move/46/"},
+		}
+
+	case "pikachu":
+		typesData = []pokemonTypeData{
+			pokemonTypeData{Name: "electric", URL: "https://pokeapi.co/api/v2/type/13/"},
+		}
+
+		movesData = []MoveData{
+			MoveData{Name: "pay-day", URL: "https://pokeapi.co/api/v2/move/6/"},
+			MoveData{Name: "thunder-punch", URL: "https://pokeapi.co/api/v2/move/9/"},
+			MoveData{Name: "slam", URL: "https://pokeapi.co/api/v2/move/21/"},
+			MoveData{Name: "mega-kick", URL: "https://pokeapi.co/api/v2/move/25/"},
+			MoveData{Name: "headbutt", URL: "https://pokeapi.co/api/v2/move/29/"},
 		}
 	}
 
