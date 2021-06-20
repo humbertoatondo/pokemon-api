@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  deployment:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,3 +22,11 @@ jobs:
 
       - name: Test
         run: go test -v ./...
+
+      - name: Publish to Docker Hub
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          passowrd: ${{ secrets.DOCKER_PASSWORD }}
+          repository: personal/pokemon-api
+          tags: latest, ${{ github.run_number }}

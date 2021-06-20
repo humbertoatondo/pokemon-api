@@ -59,6 +59,32 @@ func TestGetPokemon(t *testing.T) {
 	assert.Equal(t, basePokemon, pokemon)
 }
 
+func TestCompareTo(t *testing.T) {
+	// var httpGet = func(url string) (*http.Response, error) {
+
+	// 	tData := pokemonTypeData{
+	// 		Name: "normal",
+	// 		URL:  "https://pokeapi.co/api/v2/type/1/",
+	// 	}
+
+	// 	mData := MoveData{
+	// 		Name: "transform",
+	// 		URL:  "https://pokeapi.co/api/v2/move/144/",
+	// 	}
+
+	// 	typesData := []pokemonTypeData{tData}
+	// 	movesData := []MoveData{mData}
+	// 	newPokemon := createPokemon("ditto", typesData, movesData)
+
+	// 	reqBodyBytes := new(bytes.Buffer)
+	// 	json.NewEncoder(reqBodyBytes).Encode(newPokemon)
+	// 	newPokemonBytes := reqBodyBytes.Bytes()
+	// 	response := http.Response{Body: ioutil.NopCloser(bytes.NewBuffer(newPokemonBytes))}
+
+	// 	return &response, nil
+	// }
+}
+
 func TestCompareDamages(t *testing.T) {
 	pDamageRelations := pokemonDamageRelations{}
 	pokemon2 := Pokemon{}
