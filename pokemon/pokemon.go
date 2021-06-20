@@ -129,6 +129,7 @@ func (pokemon *Pokemon) CompareTo(rivalPokemon Pokemon, httpGet helpers.HTTPGet)
 		compareResults.DealsDoubleDamage = compareResults.DealsDoubleDamage || dealsDoubleDamage
 		compareResults.ReceivesHalfDamage = compareResults.ReceivesHalfDamage || receivesHalfDamage
 		compareResults.ReceivesNoDamage = compareResults.ReceivesNoDamage || receivesNoDamage
+
 	}
 
 	return compareResults, nil
