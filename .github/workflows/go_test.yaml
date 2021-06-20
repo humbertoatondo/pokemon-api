@@ -24,9 +24,9 @@ jobs:
         run: go test -v ./...
 
       - name: Publish to Docker Hub
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
-          passowrd: ${{ secrets.DOCKER_PASSWORD }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
           repository: personal/pokemon-api
           tags: latest, ${{ github.run_number }}
