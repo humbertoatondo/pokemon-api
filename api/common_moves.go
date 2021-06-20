@@ -55,7 +55,8 @@ func (app *App) comparePokemonMoves(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pokemons, err := pokemon.GetPokemonsFromListOfNames(keys, httpGet)
+	pokemonURL := "https://pokeapi.co/api/v2/pokemon/"
+	pokemons, err := pokemon.GetPokemonsFromListOfNames(keys, pokemonURL, httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return

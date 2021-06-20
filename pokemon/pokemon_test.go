@@ -71,10 +71,6 @@ func TestGetPokemon(t *testing.T) {
 
 }
 
-func TestCompareTo(t *testing.T) {
-
-}
-
 func TestCompareDamages(t *testing.T) {
 
 	t.Run("Pikachu can't deal double damage to lucario", func(t *testing.T) {
@@ -132,10 +128,6 @@ func TestCompareDamages(t *testing.T) {
 	})
 }
 
-func TestGetPokemonsFromListOfNames(t *testing.T) {
-
-}
-
 func TestGetCommonMovesForPokemons(t *testing.T) {
 	response, _ := httpGetPokemon("lucario")
 	var pokemon1 = Pokemon{}
@@ -187,6 +179,45 @@ func TestGetCommonMovesForPokemons(t *testing.T) {
 		}
 
 		assert.ElementsMatch(t, commonMoves, pokemonMoves)
+	})
+
+}
+
+func TestTranslatePokemonMoves(t *testing.T) {
+
+	t.Run("Empty list of pokemon moves should return an empty list", func(t *testing.T) {
+		pokemonMoves := []MoveData{}
+		translatedMoves, _ := TranslatePokemonMoves(pokemonMoves, "en", httpTranslateMove)
+
+		assert.ElementsMatch(t, translatedMoves, pokemonMoves)
+	})
+
+	t.Run("Translation of [thunder-punch] to spanish must return [Puño Trueno]", func(t *testing.T) {
+		pokemonMoves := []MoveData{
+			MoveData{Name: "thunder-punch", URL: "thunder-punch"},
+		}
+
+		translatedMoves, _ := TranslatePokemonMoves(pokemonMoves, "es", httpTranslateMove)
+
+		expectedMoves := []MoveData{
+			MoveData{Name: "Puño Trueno", URL: "thunder-punch"},
+		}
+
+		assert.ElementsMatch(t, translatedMoves, expectedMoves)
+	})
+
+	t.Run("Translation of [thunder-punch] to japanese must return [かみなりパンチ]", func(t *testing.T) {
+		pokemonMoves := []MoveData{
+			MoveData{Name: "thunder-punch", URL: "thunder-punch"},
+		}
+
+		translatedMoves, _ := TranslatePokemonMoves(pokemonMoves, "ja", httpTranslateMove)
+
+		expectedMoves := []MoveData{
+			MoveData{Name: "かみなりパンチ", URL: "thunder-punch"},
+		}
+
+		assert.ElementsMatch(t, translatedMoves, expectedMoves)
 	})
 
 }
@@ -273,6 +304,35 @@ var httpGetPokemonDamageRelations = func(pokemonName string) (*http.Response, er
 	json.NewEncoder(reqBodyBytes).Encode(pDamageRelations)
 	newDamageRelationsBytes := reqBodyBytes.Bytes()
 	response := http.Response{Body: ioutil.NopCloser(bytes.NewBuffer(newDamageRelationsBytes))}
+
+	return &response, nil
+}
+
+var httpTranslateMove = func(pokeMove string) (*http.Response, error) {
+	var tMoves transMoves
+
+	switch pokeMove {
+	case "thunder-punch":
+		tMoves = transMoves{
+			Names: []MoveData{
+				MoveData{Name: "かみなりパンチ", URL: "https://pokeapi.co/api/v2/move/9/"},
+				MoveData{Name: "번개펀치", URL: "https://pokeapi.co/api/v2/move/9/"},
+				MoveData{Name: "雷電拳", URL: "https://pokeapi.co/api/v2/move/9/"},
+				MoveData{Name: "Poing Éclair", URL: "https://pokeapi.co/api/v2/move/9/"},
+				MoveData{Name: "Donnerschlag", URL: "https://pokeapi.co/api/v2/move/9/"},
+				MoveData{Name: "Puño Trueno", URL: "https://pokeapi.co/api/v2/move/9/"},
+				MoveData{Name: "Tuonopugno", URL: "https://pokeapi.co/api/v2/move/9/"},
+				MoveData{Name: "Thunder Punch", URL: "https://pokeapi.co/api/v2/move/9/"},
+				MoveData{Name: "かみなりパンチ", URL: "https://pokeapi.co/api/v2/move/9/"},
+				MoveData{Name: "雷电拳", URL: "https://pokeapi.co/api/v2/move/9/"},
+			},
+		}
+	}
+
+	reqBodyBytes := new(bytes.Buffer)
+	json.NewEncoder(reqBodyBytes).Encode(tMoves)
+	newtMovesBytes := reqBodyBytes.Bytes()
+	response := http.Response{Body: ioutil.NopCloser(bytes.NewBuffer(newtMovesBytes))}
 
 	return &response, nil
 }

@@ -169,11 +169,10 @@ func (pokemonDamageRelations *pokemonDamageRelations) compareDamages(rivalPokemo
 // GetPokemonsFromListOfNames receives a list with pokemon names and calls
 // the function GetPokemon for every pokemon name in the list to get the
 // pokemon's data.
-func GetPokemonsFromListOfNames(pokemonNames []string, httpGet helpers.HTTPGet) ([]Pokemon, error) {
+func GetPokemonsFromListOfNames(pokemonNames []string, pokemonURL string, httpGet helpers.HTTPGet) ([]Pokemon, error) {
 	size := len(pokemonNames)
 	pokemons := make([]Pokemon, size)
 
-	pokemonURL := "https://pokeapi.co/api/v2/pokemon/"
 	for i, pokemonName := range pokemonNames {
 		pokemon, err := GetPokemon(pokemonName, pokemonURL, httpGet)
 		if err != nil {
