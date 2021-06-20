@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/humbertoatondo/pokemon-api/helpers"
 )
 
 // App contains the necessary components for runnign the server.
@@ -25,8 +26,14 @@ func (app *App) Run(port string) {
 }
 
 func (app *App) initializeRoutes() {
+	app.Router.HandleFunc("/", app.home).Methods("GET")
 	app.Router.HandleFunc("/comparePokemons", app.comparePokemons).Methods("GET")
 	app.Router.HandleFunc("/comparePokemonsMoves", app.comparePokemonMoves).Methods("GET")
+}
+
+func (app *App) home(w http.ResponseWriter, r *http.Request) {
+	welcomeMessage := "Pokemon Rest API"
+	helpers.RespondWithJSON(w, 200, welcomeMessage)
 }
 
 // Decouples the http get request from the rest of the functions.
