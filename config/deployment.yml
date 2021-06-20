@@ -1,18 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemon-api
+  labels:
+    app: pokemon-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pokemon-api
+  template:
+    metadata:
+      labels:
+        app: pokemon-api
+    spec:
+      containers:
+        - name: pokemon-api
+          image: <IMAGE>
+          ports:
+            - containerPort: 5000
+---
 apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURKekNDQWcrZ0F3SUJBZ0lDQm5Vd0RRWUpLb1pJaHZjTkFRRUxCUUF3TXpFVk1CTUdBMVVFQ2hNTVJHbG4KYVhSaGJFOWpaV0Z1TVJvd0dBWURWUVFERXhGck9ITmhZWE1nUTJ4MWMzUmxjaUJEUVRBZUZ3MHlNVEEyTWpBdwpOakUwTXpaYUZ3MDBNVEEyTWpBd05qRTBNelphTURNeEZUQVRCZ05WQkFvVERFUnBaMmwwWVd4UFkyVmhiakVhCk1CZ0dBMVVFQXhNUmF6aHpZV0Z6SUVOc2RYTjBaWElnUTBFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUIKRHdBd2dnRUtBb0lCQVFETU5WYThXL1NZZVMwY1BEdzYvSWw2Q3djbHVxSGxUNmxOdmVUTVd0Rjc0a3BQYm5BbQpjWUFTbjlGZUhsbUNVMXZTQjRnMjM5blExaWVxUXh0b1hmVGwvRmVSNk1Cekw1VjNsZWl0eWgyWHcvWkZsZWZLCnNrSHJIc2ZQL1lRYjIwNTBkWmpZTzZaUW0rd0FtWUlRclZ5UHJ5c1lSak0xV1lVc1dHYUI2dWdXaDA1Q01xRFoKN1J3SGI3djdqeEVScmlDLzNPalNldUhIT1Z1SSt2T0ZSRjQ1TzlQbHlOTnBMZng5d3NlWmUwRXMzVHo3bkxkdApkQlZPbjdnOE5ZU0Q0UU5XcGVmUjJiaXJXM2o0Zkp2MHIzd3MrUWV3L0taNmxZemdDby9TU1J4dWlhdDBLaS9aCms4U2NQbFpBVHpweTRQWkQwVmxuV3pVTTlIZGdIc3oxS1lORkFnTUJBQUdqUlRCRE1BNEdBMVVkRHdFQi93UUUKQXdJQmhqQVNCZ05WSFJNQkFmOEVDREFHQVFIL0FnRUFNQjBHQTFVZERnUVdCQlIwR0N2WUZIZzg2aDN3LyttZgp5c2VrckhWR3FqQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFvTVVTakQvRFBmbkwwMnRhbDhRUUpHUWpoT0RZCjNVZlVpbzJRWjZ2VVNMVEpiTVBzbVNWOXF4VDIxaDhZQ3BqVXhLYm15dklsNUphT3BUb0p6a2hSNDBrVXhzK20KZHAvTkFBc2NzY2Q5ZGlzMkU5UktKcWZ1aHIwM0hscHFiWnJmc2xKMWpGUHpkOTg1bmJ3ODI5aEo0TFR1YVYrZgpvUlZHN0xNQWc3b1ZpUytsbmRYSkt6Z0NWZk5PTG41UzZaOW51ZlFDOFJRZmNhUGxQOFdUSktsWkUzQVF2ZDFKCmFOazZ2VXpRckc0Y2R2b1Y0Y1ZxVnJ1MkZaNjUxTkpKNTMwM3Zma3lPYWhuRUVBY21NME16M1VJVGU4NXM0MUEKQkI4YWdESDBLMWd6a01jb0c0dWhlLzgvNjYyTmN5d0c5ek15djFST055RHVKZWFRMmpDcTgrbVU4Zz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
-    server: https://9b3a82e7-dbca-4d7c-83de-1e5dd11f4010.k8s.ondigitalocean.com
-  name: do-sfo3-k8s-pokemon-api
-contexts:
-- context:
-    cluster: do-sfo3-k8s-pokemon-api
-    user: do-sfo3-k8s-pokemon-api-admin
-  name: do-sfo3-k8s-pokemon-api
-current-context: do-sfo3-k8s-pokemon-api
-kind: Config
-preferences: {}
-users:
-- name: do-sfo3-k8s-pokemon-api-admin
-  user:
-    token: 1e33be711b08ff678c9f62037a140f5ebc18c6a4e54839fc1b2b8e1e1fbc67cb
+kind: Service
+metadata:
+  name: pokemon-api-service
+spec:
+  selector:
+    app: pokemon-api
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30000
