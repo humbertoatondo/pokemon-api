@@ -1,1 +1,1 @@
-![alt text](https://github.com/humbertoatondo/pokemon-api/assets/blob/main/pokemon-header.jpg?raw=true)
+<img src="assets/pokemon-header.jpg" alt="Pokemon api header" width="100%"/>
