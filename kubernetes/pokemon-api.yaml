@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemon-api
+  labels:
+    app: pokemon-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pokemon-api
+  template:
+    metadata:
+      labels:
+        app: pokemon-api
+    spec:
+      containers:
+        - name: pokemon-api
+          image: humbertoatondo/pokemon-api
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pokemon-api-service
+spec:
+  selector:
+    app: pokemon-api
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30001
