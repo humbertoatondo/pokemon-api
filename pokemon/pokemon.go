@@ -81,8 +81,8 @@ const (
 
 // GetPokemon receives a pokemon name and makes an http request
 // to get that pokemon's data from the api pokeapi.
-func GetPokemon(pokemonName string, httpGet helpers.HTTPGet) (Pokemon, error) {
-	url := fmt.Sprintf("https://pokeapi.co/api/v2/pokemon/%s", pokemonName)
+func GetPokemon(pokemonName string, pokemonURL string, httpGet helpers.HTTPGet) (Pokemon, error) {
+	url := fmt.Sprintf("%s%s", pokemonURL, pokemonName)
 
 	response, err := httpGet(url)
 	if err != nil {
@@ -173,8 +173,9 @@ func GetPokemonsFromListOfNames(pokemonNames []string, httpGet helpers.HTTPGet) 
 	size := len(pokemonNames)
 	pokemons := make([]Pokemon, size)
 
+	pokemonURL := "https://pokeapi.co/api/v2/pokemon/"
 	for i, pokemonName := range pokemonNames {
-		pokemon, err := GetPokemon(pokemonName, httpGet)
+		pokemon, err := GetPokemon(pokemonName, pokemonURL, httpGet)
 		if err != nil {
 			return make([]Pokemon, 0), err
 		}

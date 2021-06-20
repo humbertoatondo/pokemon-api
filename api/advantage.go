@@ -34,14 +34,15 @@ func (app *App) comparePokemons(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	pokemonURL := "https://pokeapi.co/api/v2/pokemon/"
 	// Get pokemons
-	pokemon1, err := pokemon.GetPokemon(pokemon1Name, httpGet)
+	pokemon1, err := pokemon.GetPokemon(pokemon1Name, pokemonURL, httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return
 	}
 
-	pokemon2, err := pokemon.GetPokemon(pokemon2Name, httpGet)
+	pokemon2, err := pokemon.GetPokemon(pokemon2Name, pokemonURL, httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return
