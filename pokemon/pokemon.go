@@ -3,7 +3,6 @@ package pokemon
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
 
 	"github.com/humbertoatondo/pokemon-api/helpers"
 )
@@ -82,9 +81,10 @@ const (
 
 // GetPokemon receives a pokemon name and makes an http request
 // to get that pokemon's data from the api pokeapi.
-func GetPokemon(pokemonName string) (Pokemon, error) {
+func GetPokemon(pokemonName string, httpGet helpers.HTTPGet) (Pokemon, error) {
 	url := fmt.Sprintf("https://pokeapi.co/api/v2/pokemon/%s", pokemonName)
-	response, err := http.Get(url)
+
+	response, err := httpGet(url)
 	if err != nil {
 		return Pokemon{}, err
 	}
@@ -104,16 +104,18 @@ func GetPokemon(pokemonName string) (Pokemon, error) {
 //   - Current pokemon can deal double damage to rival pokemon.
 //   - Current pokemon can receive half damage from rival pokemon.
 //   - Current pokemon can receive no damage from rival pokemon.
-func (pokemon *Pokemon) CompareTo(rivalPokemon Pokemon) (CompareResults, error) {
+func (pokemon *Pokemon) CompareTo(rivalPokemon Pokemon, httpGet helpers.HTTPGet) (CompareResults, error) {
 	var compareResults = CompareResults{}
 
 	for _, pType := range pokemon.Types {
 		url := pType.Type.URL
 
-		response, err := http.Get(url)
+		response, err := httpGet(url)
 		if err != nil {
 			return CompareResults{}, err
 		}
+
+		defer response.Body.Close()
 
 		var pokemonDamageRelations = pokemonDamageRelations{}
 		if err = json.NewDecoder(response.Body).Decode(&pokemonDamageRelations); err != nil {
@@ -166,12 +168,12 @@ func (pokemonDamageRelations *pokemonDamageRelations) compareDamages(rivalPokemo
 // GetPokemonsFromListOfNames receives a list with pokemon names and calls
 // the function GetPokemon for every pokemon name in the list to get the
 // pokemon's data.
-func GetPokemonsFromListOfNames(pokemonNames []string) ([]Pokemon, error) {
+func GetPokemonsFromListOfNames(pokemonNames []string, httpGet helpers.HTTPGet) ([]Pokemon, error) {
 	size := len(pokemonNames)
 	pokemons := make([]Pokemon, size)
 
 	for i, pokemonName := range pokemonNames {
-		pokemon, err := GetPokemon(pokemonName)
+		pokemon, err := GetPokemon(pokemonName, httpGet)
 		if err != nil {
 			return make([]Pokemon, 0), err
 		}
@@ -220,7 +222,7 @@ func GetCommonMovesForPokemons(pokemons []Pokemon, limit int) []MoveData {
 
 // TranslatePokemonMoves receives a list of pokemon moves and a language and translate
 // every move to the desired language.
-func TranslatePokemonMoves(pokemonMoves []MoveData, lang string) ([]MoveData, error) {
+func TranslatePokemonMoves(pokemonMoves []MoveData, lang string, httpGet helpers.HTTPGet) ([]MoveData, error) {
 	if lang == "en" {
 		return pokemonMoves, nil
 	}
@@ -229,10 +231,12 @@ func TranslatePokemonMoves(pokemonMoves []MoveData, lang string) ([]MoveData, er
 
 	for i, pokemonMove := range pokemonMoves {
 		url := pokemonMove.URL
-		response, err := http.Get(url)
+		response, err := httpGet(url)
 		if err != nil {
 			return make([]MoveData, 0), err
 		}
+
+		defer response.Body.Close()
 
 		var tMoves transMoves
 		if err = json.NewDecoder(response.Body).Decode(&tMoves); err != nil {

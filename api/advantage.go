@@ -35,20 +35,20 @@ func (app *App) comparePokemons(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get pokemons
-	pokemon1, err := pokemon.GetPokemon(pokemon1Name)
+	pokemon1, err := pokemon.GetPokemon(pokemon1Name, httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return
 	}
 
-	pokemon2, err := pokemon.GetPokemon(pokemon2Name)
+	pokemon2, err := pokemon.GetPokemon(pokemon2Name, httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return
 	}
 
 	// Compare pokemons damage relations
-	comparisionResults, err := pokemon1.CompareTo(pokemon2)
+	comparisionResults, err := pokemon1.CompareTo(pokemon2, httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return

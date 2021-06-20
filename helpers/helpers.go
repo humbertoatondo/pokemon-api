@@ -5,6 +5,11 @@ import (
 	"net/http"
 )
 
+type (
+	// HTTPGet handles the http get requests.
+	HTTPGet func(string) (*http.Response, error)
+)
+
 // LanguageMap is used to reference the available languages
 // for pokemon moves.
 var LanguageMap = map[string]int{

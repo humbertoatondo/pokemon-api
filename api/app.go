@@ -28,3 +28,13 @@ func (app *App) initializeRoutes() {
 	app.Router.HandleFunc("/comparePokemons", app.comparePokemons).Methods("GET")
 	app.Router.HandleFunc("/comparePokemonsMoves", app.comparePokemonMoves).Methods("GET")
 }
+
+// Decouples the http get request from the rest of the functions.
+// This makes it easier when testing the code.
+var httpGet = func(url string) (*http.Response, error) {
+	response, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	return response, nil
+}

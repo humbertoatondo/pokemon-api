@@ -55,7 +55,7 @@ func (app *App) comparePokemonMoves(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pokemons, err := pokemon.GetPokemonsFromListOfNames(keys)
+	pokemons, err := pokemon.GetPokemonsFromListOfNames(keys, httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return
@@ -63,7 +63,7 @@ func (app *App) comparePokemonMoves(w http.ResponseWriter, r *http.Request) {
 
 	commonMovesForPokemons := pokemon.GetCommonMovesForPokemons(pokemons, limit)
 
-	translatedCommonMovesForPokemons, err := pokemon.TranslatePokemonMoves(commonMovesForPokemons, lang)
+	translatedCommonMovesForPokemons, err := pokemon.TranslatePokemonMoves(commonMovesForPokemons, lang, httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return
