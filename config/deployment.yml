@@ -5,7 +5,7 @@ metadata:
   labels:
     app: pokemon-api
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       app: pokemon-api
