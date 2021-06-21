@@ -8,8 +8,8 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    name: Run tests
+  unit_tests:
+    name: Run unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
 
   push_test_image_to_registry:
     name: Push Docker test image to Docker Hub
-    needs: [test]
+    needs: [unit_tests]
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -45,9 +45,23 @@ jobs:
           push: true
           tags: humbertoatondo/pokemon-api-test:latest
 
+  integration_tests:
+    name: Run integration tests
+    needs: [push_test_image_to_registry]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run api in container
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: humbertoatondo/pokemon-api-test:latest
+          run: .app/main -env=test
+
   push_to_registry:
     name: Push Docker image to Docker Hub
-    needs: [test]
+    needs: [integration_tests]
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -67,7 +81,7 @@ jobs:
 
   deploy_cluster:
     name: Deploy the K8s cluster in DigitalOcean
-    needs: [test]
+    needs: [integration_tests]
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
