@@ -4,31 +4,31 @@
     {
       "move": {
         "name": "pay-day",
-        "url": "http://localhost:5000/move/6/"
+        "url": "http://localhost:5000/move/6"
       }
     },
     {
       "move": {
         "name": "thunder-punch",
-        "url": "http://localhost:5000/move/9/"
+        "url": "http://localhost:5000/move/9"
       }
     },
     {
       "move": {
         "name": "slam",
-        "url": "http://localhost:5000/move/21/"
+        "url": "http://localhost:5000/move/21"
       }
     },
     {
       "move": {
         "name": "mega-kick",
-        "url": "http://localhost:5000/move/25/"
+        "url": "http://localhost:5000/move/25"
       }
     },
     {
       "move": {
         "name": "headbutt",
-        "url": "http://localhost:5000/move/29/"
+        "url": "http://localhost:5000/move/29"
       }
     }
   ],
@@ -37,7 +37,7 @@
       "slot": 1,
       "type": {
         "name": "electric",
-        "url": "http://localhost:5000/type/13/"
+        "url": "http://localhost:5000/type/13"
       }
     }
   ]

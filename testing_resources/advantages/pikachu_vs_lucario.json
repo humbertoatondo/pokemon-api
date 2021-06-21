@@ -1,0 +1,99 @@
+{
+  "pokemon": {
+    "name": "pikachu",
+    "types": [
+      {
+        "type": {
+          "name": "electric",
+          "url": "http://localhost:5000/type/13"
+        }
+      }
+    ],
+    "moves": [
+      {
+        "move": {
+          "name": "pay-day",
+          "url": "http://localhost:5000/move/6"
+        }
+      },
+      {
+        "move": {
+          "name": "thunder-punch",
+          "url": "http://localhost:5000/move/9"
+        }
+      },
+      {
+        "move": {
+          "name": "slam",
+          "url": "http://localhost:5000/move/21"
+        }
+      },
+      {
+        "move": {
+          "name": "mega-kick",
+          "url": "http://localhost:5000/move/25"
+        }
+      },
+      {
+        "move": {
+          "name": "headbutt",
+          "url": "http://localhost:5000/move/29"
+        }
+      }
+    ]
+  },
+  "rival_pokemon": {
+    "name": "lucario",
+    "types": [
+      {
+        "type": {
+          "name": "fighting",
+          "url": "http://localhost:5000/type/2"
+        }
+      },
+      {
+        "type": {
+          "name": "steel",
+          "url": "http://localhost:5000/type/9"
+        }
+      }
+    ],
+    "moves": [
+      {
+        "move": {
+          "name": "ice-punch",
+          "url": "http://localhost:5000/move/8"
+        }
+      },
+      {
+        "move": {
+          "name": "thunder-punch",
+          "url": "http://localhost:5000/move/9"
+        }
+      },
+      {
+        "move": {
+          "name": "swords-dance",
+          "url": "http://localhost:5000/move/14"
+        }
+      },
+      {
+        "move": {
+          "name": "headbutt",
+          "url": "http://localhost:5000/move/29"
+        }
+      },
+      {
+        "move": {
+          "name": "roar",
+          "url": "http://localhost:5000/move/46"
+        }
+      }
+    ]
+  },
+  "comparision_results": {
+    "deals_double_damage": false,
+    "receives_half_damage": true,
+    "receives_no_damage": false
+  }
+}
