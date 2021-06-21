@@ -40,10 +40,11 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build container image
-        run: docker build -t humbertoatondo/pokemon-api:latest -f dockerfiles/Dockerfile .
+        run: docker build -t humbertoatondo/pokemon-api:latest -f dockerfiles/test/Dockerfile .
 
       - name: Docker push to Docker Hub
         run: docker push humbertoatondo/pokemon-api:latest
+
 
       # - name: Push to Docker Hub
       #   uses: docker/build-push-action@v2
@@ -51,26 +52,25 @@ jobs:
       #     push: true
       #     tags: humbertoatondo/pokemon-api-test:latest
 
-  # integration_tests:
-  #   name: Run integration tests
-  #   # needs: [push_test_image_to_registry]
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: humbertoatondo/pokemon-api-test:latest
-  # steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v2
+  integration_tests:
+    name: Run integration tests
+    needs: [push_test_image_to_registry]
+    runs-on: ubuntu-latest
+    container:
+      image: humbertoatondo/pokemon-api-test:latest
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
 
-  #   - uses: docker/build-push-action@v2
-  #     with:
-  #       tags: humbertoatondo/pokemon-api-test:latest
-  #       push: false
+    - uses: docker/build-push-action@v2
+      with:
+        tags: humbertoatondo/pokemon-api-test:latest
+        push: false
 
-  #   - name: Run api in container
-  #     uses: addnab/docker-run-action@v3
-  #     with:
-  #       image: humbertoatondo/pokemon-api-test:latest
-  #       run: /app/main -env=test
+    # - name: Run api in container
+    #   uses: addnab/docker-run-action@v3
+    #   with:
+    #     image: humbertoatondo/pokemon-api-test:latest
 
   # push_to_registry:
   #   name: Push Docker image to Docker Hub
