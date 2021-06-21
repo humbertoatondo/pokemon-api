@@ -23,7 +23,7 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: go test -v ./...--tags=unit
+        run: go test -v ./... --tags=unit
 
   push_test_image_to_registry:
     name: Push Docker test image to Docker Hub
