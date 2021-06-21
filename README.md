@@ -3,6 +3,8 @@
 <img src="assets/pokemon-header.jpg" alt="Pokemon api header" width="100%"/>
 
 Pokemon API is a Rest API built using Golang which uses the [PokeAPI](https://pokeapi.co/) to make comparisons between two or more pokemons, providing us with useful insight.
+If you want to check the hosted version of this project [click here](http://143.244.208.45:5000/).
+
 
 ## Table of Contents
 
@@ -12,6 +14,9 @@ Pokemon API is a Rest API built using Golang which uses the [PokeAPI](https://po
   - [Local](#local)
   - [Docker](#docker)
   - [Kubernetes](#kubernetes)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Endpoints](#endpoints)
 
 ## Installation <a name="installation"/>
 
@@ -91,3 +96,34 @@ minikube service pokemon-api-service
 ```
 
 an url will be open in your browser directing you the running rest api.
+
+## Testing <a name="testing"/>
+There are two different types of tests in this project, unit and integration testing. Because of this we need to test the program using tags.
+To run the unit test just run the following command.
+```bash
+go test -v ./... --tags=unit
+```
+
+Running the integration test is a little different, first we have to run the project as we will normally run it locally.
+```bash
+go run .
+```
+And now that an instance of the project is running we can now run the integration tests with the following command.
+```bash
+go test -v ./... --tags=integration
+```
+
+## Deployment <a name="deployment"/>
+Everytime we make a commit in the main branch the following pipeline will run:
+1. The unit tests will run to check that the tested functions are working as expected.
+2. Then, a test image of the pokemon api will be built and deployed to Docker Hub, this will help us when running the integration test.
+3. After the test image of the pokemon api is on Docker Hub it will proceed to build a container with that image and run the integration tests. Note that integration tests are being run locally and all functionality that requires third partie apis are mocke.
+4. Once all the test ran successfully it will deploy a development image into Docker Hub and another one into DigitalOcean and it will proceed to deploy the clusted in the DigitalOcean cloud.
+
+## Endpoints <a name="endpoints"/>
+
+|  Argument |   |   |   |   |
+|---|---|---|---|---|
+|   |   |   |   |   |
+|   |   |   |   |   |
+|   |   |   |   |   |
