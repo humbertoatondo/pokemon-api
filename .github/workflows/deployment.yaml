@@ -56,7 +56,7 @@ jobs:
     name: Run integration tests
     needs: [push_test_image_to_registry]
     runs-on: ubuntu-latest
-    service:
+    services:
       test_api:
         image: humbertoatondo/pokemon-api-test:latest
       ports:
