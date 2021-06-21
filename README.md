@@ -153,7 +153,7 @@ This endpoint receives 2 pokemon names and returns an object containing comparis
 
 | Argument | Description                                                                                          |
 | -------- | ---------------------------------------------------------------------------------------------------- |
-| pokemon1 | Name of the first pokemon to compare in lowercase. It can receive unlimited number of pokemon names. |
+| pokemon | Name of the first pokemon to compare in lowercase. It can receive unlimited number of pokemon names. |
 | limit    | Sets the limit of common moves the endpoint should return.                                           |
 | lang     | Specifies the language in which you want the pokemon moves to be return in.                          |
 
