@@ -31,8 +31,8 @@ func TestCommonMoves(t *testing.T) {
 		var expectedBody commonMoves
 		json.Unmarshal(fileBytes, &expectedBody)
 
-		assert.Equal(t, resBody.Pokemons, expectedBody.Pokemons)
-		assert.Equal(t, resBody.Moves, expectedBody.Moves)
+		assert.ElementsMatch(t, resBody.Pokemons, expectedBody.Pokemons)
+		assert.ElementsMatch(t, resBody.Moves, expectedBody.Moves)
 	})
 
 	t.Run("Comparing ditto's and lucario's moves should return an empty array of moves", func(t *testing.T) {
@@ -53,8 +53,8 @@ func TestCommonMoves(t *testing.T) {
 		var expectedBody commonMoves
 		json.Unmarshal(fileBytes, &expectedBody)
 
-		assert.Equal(t, resBody.Pokemons, expectedBody.Pokemons)
-		assert.Equal(t, resBody.Moves, expectedBody.Moves)
+		assert.ElementsMatch(t, resBody.Pokemons, expectedBody.Pokemons)
+		assert.ElementsMatch(t, resBody.Moves, expectedBody.Moves)
 	})
 
 	t.Run("Comparing pikachu's and lucario's moves should return an array with 2 moves in spanish", func(t *testing.T) {
@@ -75,8 +75,8 @@ func TestCommonMoves(t *testing.T) {
 		var expectedBody commonMoves
 		json.Unmarshal(fileBytes, &expectedBody)
 
-		assert.Equal(t, resBody.Pokemons, expectedBody.Pokemons)
-		assert.Equal(t, resBody.Moves, expectedBody.Moves)
+		assert.ElementsMatch(t, resBody.Pokemons, expectedBody.Pokemons)
+		assert.ElementsMatch(t, resBody.Moves, expectedBody.Moves)
 	})
 
 }
