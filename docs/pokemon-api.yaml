@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: Pokemon API
+  description: Pokemon API conformed by 2 endpoints to extract pokemon insights.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000/
+    description: Base routes for all paths
+
+paths:
+  /comparePokemons:
+    get:
+      summary: Compares to pokemons.
+      description: see if pokemon1 has an advantage over pokemon2.
+      responses:
+        '200':    # status code
+          description: A JSON object containing the damage realtions for the pokemon.
+      parameters:
+        - name: pokemon1
+          description: base pokemon name
+          required: true
+          schema:
+            type: string
+        - name: pokemon2
+          description: rival pokemon name
+          required: true
+          schema:
+            type: string
+        default: error
+  
+  /comparePokemonsMoves:
+    get:
+      summary: Return common moves from a list of pokemons .
+      responses:
+        '200':    # status code
+          description: A JSON object containing the common moves between the pokemons.
+      parameters:
+        - name: pokemon
+          description: pokemon name (at least 2) (unlimited)
+          required: true
+          schema:
+            type: string
+        - name: pokemon
+          description: pokemon name (at least 2) (unlimited)
+          required: true
+          schema:
+            type: string
+        - name: limit
+          description: limits the amount of moves returned.
+          required: false
+          schema:
+            type: string | int
+        - name: lang
+          description: language in which the moves are returned
+          required: false
+          schema:
+            type: string
+        default: error
