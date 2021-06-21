@@ -128,7 +128,6 @@ Everytime we make a commit in the main branch the following pipeline will run:
 
 ## Endpoints <a name="endpoints"/>
 
-route:
 
 ```bash
 /comparePokemons?pokemon1=<pokemonName>&pokemon2=<pokemonName>
@@ -144,6 +143,9 @@ This endpoint receives 2 pokemon names and returns an object containing comparis
 - deals_double_damage: [BOOL] Returns true if pokemon1 can deal double damage to pokemon2.
 - receives_half_damage: [BOOL] Returns true if pokemon1 can receive half damage from pokemon2.
 - receives_no_damage: [BOOL] Retusn true if pokemon1 can receive no damage from pokemon2
+
+</br>
+</br>
 
 ```bash
 /comparePokemonsMoves?pokemon=<pokemonName>&pokemon=<pokemonName>
