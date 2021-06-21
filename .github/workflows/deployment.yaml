@@ -55,9 +55,9 @@ jobs:
 
       - name: Run api in container
       - uses: addnab/docker-run-action@v3
-        with:
-          image: humbertoatondo/pokemon-api-test:latest
-          run: .app/main -env=test
+        # with:
+        #   image: humbertoatondo/pokemon-api-test:latest
+        #   run: .app/main -env=test
 
   push_to_registry:
     name: Push Docker image to Docker Hub
