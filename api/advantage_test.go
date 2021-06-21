@@ -1,14 +1,10 @@
 package api
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 var app App
@@ -26,30 +22,30 @@ func executeRequest(req *http.Request) *httptest.ResponseRecorder {
 	return rr
 }
 
-func TestComparePokemons(t *testing.T) {
+// func TestComparePokemons(t *testing.T) {
 
-	t.Run("Comparing pikachu with lucario should return [false, true, false]", func(t *testing.T) {
+// 	t.Run("Comparing pikachu with lucario should return [false, true, false]", func(t *testing.T) {
 
-		urlPath := "http://localhost:5000/comparePokemons?pokemon1=pikachu&pokemon2=lucario"
-		response, _ := http.Get(urlPath)
+// 		urlPath := "http://localhost:5000/comparePokemons?pokemon1=pikachu&pokemon2=lucario"
+// 		response, _ := http.Get(urlPath)
 
-		var resBody advantage
-		if err := json.NewDecoder(response.Body).Decode(&resBody); err != nil {
-			t.Error(err)
-		}
+// 		var resBody advantage
+// 		if err := json.NewDecoder(response.Body).Decode(&resBody); err != nil {
+// 			t.Error(err)
+// 		}
 
-		jsonFilePath := "../testing_resources/advantages/pikachu_vs_lucario.json"
-		fileBytes, err := ioutil.ReadFile(jsonFilePath)
-		if err != nil {
-			t.Error(err)
-		}
+// 		jsonFilePath := "../testing_resources/advantages/pikachu_vs_lucario.json"
+// 		fileBytes, err := ioutil.ReadFile(jsonFilePath)
+// 		if err != nil {
+// 			t.Error(err)
+// 		}
 
-		var expectedBody advantage
-		json.Unmarshal(fileBytes, &expectedBody)
+// 		var expectedBody advantage
+// 		json.Unmarshal(fileBytes, &expectedBody)
 
-		// fmt.Printf("%v\n", expectedBody)
+// 		// fmt.Printf("%v\n", expectedBody)
 
-		assert.Equal(t, resBody, expectedBody)
-	})
+// 		// assert.Equal(t, resBody, expectedBody)
+// 	})
 
-}
+// }
