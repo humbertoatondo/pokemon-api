@@ -16,6 +16,7 @@ If you want to check the hosted version of this project [click here](http://143.
   - [Kubernetes](#kubernetes)
 - [Testing](#testing)
 - [Deployment](#deployment)
+- [Endpoints](#endpoints)
 
 ## Installation <a name="installation"/>
 
@@ -101,3 +102,11 @@ Everytime we make a commit in the main branch the following pipeline will run:
 2. Then, a test image of the pokemon api will be built and deployed to Docker Hub, this will help us when running the integration test.
 3. After the test image of the pokemon api is on Docker Hub it will proceed to build a container with that image and run the integration tests. Note that integration tests are being run locally and all functionality that requires third partie apis are mocke.
 4. Once all the test ran successfully it will deploy a development image into Docker Hub and another one into DigitalOcean and it will proceed to deploy the clusted in the DigitalOcean cloud.
+
+## Endpoints <a name="endpoints"/>
+
+|  Argument |   |   |   |   |
+|---|---|---|---|---|
+|   |   |   |   |   |
+|   |   |   |   |   |
+|   |   |   |   |   |
