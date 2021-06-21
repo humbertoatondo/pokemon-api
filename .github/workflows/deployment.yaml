@@ -59,8 +59,8 @@ jobs:
     services:
       test_api:
         image: humbertoatondo/pokemon-api-test:latest
-      ports:
-        - 5000:5000
+        ports:
+          - 5000:5000
 
     steps:
       - name: Checkout
