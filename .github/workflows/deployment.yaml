@@ -56,16 +56,16 @@ jobs:
     name: Run integration tests
     needs: [push_test_image_to_registry]
     runs-on: ubuntu-latest
-    container:
-      image: humbertoatondo/pokemon-api-test:latest
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+    # container:
+    #   image: humbertoatondo/pokemon-api-test:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - uses: docker/build-push-action@v2
-      with:
-        tags: humbertoatondo/pokemon-api-test:latest
-        push: false
+      - uses: docker/build-push-action@v2
+        with:
+          tags: humbertoatondo/pokemon-api-test:latest
+          push: false
 
     # - name: Run api in container
     #   uses: addnab/docker-run-action@v3
