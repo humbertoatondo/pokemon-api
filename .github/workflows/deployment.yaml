@@ -33,6 +33,9 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
+      - name: Move to Dockerfile path
+        run: cd dockerfiles
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
