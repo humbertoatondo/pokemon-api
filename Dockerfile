@@ -4,4 +4,5 @@ ADD . /app
 WORKDIR /app
 EXPOSE 5000
 RUN go build -o main .
-# CMD ["/app/main"]
+CMD ["/app/main"]
+
