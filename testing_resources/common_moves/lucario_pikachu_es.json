@@ -1,0 +1,14 @@
+{
+  "pokemons": ["lucario", "pikachu"],
+  "moves": [
+    {
+      "name": "Puño Trueno",
+      "url": "http://localhost:5000/move/9"
+    },
+    {
+      "name": "Golpe Cabeza",
+      "url": "http://localhost:5000/move/29"
+    }
+  ],
+  "lang": "es"
+}

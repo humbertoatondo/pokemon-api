@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 
 	"github.com/humbertoatondo/pokemon-api/api"
@@ -12,8 +11,6 @@ func main() {
 	envPtr := flag.String("env", "development", "a string")
 	flag.Parse()
 	env := *envPtr
-
-	fmt.Println(env)
 
 	switch env {
 	case "test":

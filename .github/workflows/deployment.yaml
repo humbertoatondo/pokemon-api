@@ -23,7 +23,7 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: go test -v ./...
+        run: go test -v ./...--tags=unit
 
   push_test_image_to_registry:
     name: Push Docker test image to Docker Hub
@@ -60,7 +60,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run tests
-        run: go test ./... --tags=integration
+        run: go test -v ./... --tags=integration
 
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -81,13 +81,6 @@ jobs:
 
       - name: Docker push to Docker Hub
         run: docker push humbertoatondo/pokemon-api:latest
-
-
-      # - name: Push to Docker Hub
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     push: true
-      #     tags: humbertoatondo/pokemon-api:latest
 
   deploy_cluster:
     name: Deploy the K8s cluster in DigitalOcean

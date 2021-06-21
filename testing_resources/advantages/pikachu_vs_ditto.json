@@ -43,57 +43,27 @@
     ]
   },
   "rival_pokemon": {
-    "name": "lucario",
+    "name": "ditto",
     "types": [
       {
         "type": {
-          "name": "fighting",
-          "url": "http://localhost:5000/type/2"
-        }
-      },
-      {
-        "type": {
-          "name": "steel",
-          "url": "http://localhost:5000/type/9"
+          "name": "normal",
+          "url": "http://localhost:5000/type/1"
         }
       }
     ],
     "moves": [
       {
         "move": {
-          "name": "ice-punch",
-          "url": "http://localhost:5000/move/8"
-        }
-      },
-      {
-        "move": {
-          "name": "thunder-punch",
-          "url": "http://localhost:5000/move/9"
-        }
-      },
-      {
-        "move": {
-          "name": "swords-dance",
-          "url": "http://localhost:5000/move/14"
-        }
-      },
-      {
-        "move": {
-          "name": "headbutt",
-          "url": "http://localhost:5000/move/29"
-        }
-      },
-      {
-        "move": {
-          "name": "roar",
-          "url": "http://localhost:5000/move/46"
+          "name": "transform",
+          "url": "http://localhost:5000/move/144"
         }
       }
     ]
   },
   "comparison_results": {
     "deals_double_damage": false,
-    "receives_half_damage": true,
+    "receives_half_damage": false,
     "receives_no_damage": false
   }
 }

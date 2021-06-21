@@ -1,0 +1,14 @@
+{
+  "pokemons": ["pikachu", "lucario"],
+  "moves": [
+    {
+      "name": "Thunder Punch",
+      "url": "http://localhost:5000/move/9"
+    },
+    {
+      "name": "Headbutt",
+      "url": "http://localhost:5000/move/29"
+    }
+  ],
+  "lang": "en"
+}

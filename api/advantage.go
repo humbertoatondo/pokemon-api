@@ -11,9 +11,9 @@ import (
 // Stores the results obtained on the comparePokemons function.
 // It stores both pokemons data as well as the results for the damage comparision.
 type advantage struct {
-	Pokemon            pokemon.Pokemon        `json:"pokemon"`
-	RivalPokemon       pokemon.Pokemon        `json:"rival_pokemon"`
-	ComparisionResults pokemon.CompareResults `json:"comparision_results"`
+	Pokemon           pokemon.Pokemon        `json:"pokemon"`
+	RivalPokemon      pokemon.Pokemon        `json:"rival_pokemon"`
+	ComparisonResults pokemon.CompareResults `json:"comparison_results"`
 }
 
 // Receives two pokemon names as arguments and makes the following comparisions:
@@ -56,9 +56,9 @@ func (app *App) comparePokemons(w http.ResponseWriter, r *http.Request) {
 	}
 
 	advantageResult := advantage{
-		Pokemon:            pokemon1,
-		RivalPokemon:       pokemon2,
-		ComparisionResults: comparisonResults,
+		Pokemon:           pokemon1,
+		RivalPokemon:      pokemon2,
+		ComparisonResults: comparisonResults,
 	}
 
 	helpers.RespondWithJSON(w, 200, advantageResult)
