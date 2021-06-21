@@ -17,6 +17,7 @@ spec:
       containers:
         - name: pokemon-api
           image: <IMAGE>
+          command: ["/app/main"]
           ports:
             - containerPort: 5000
 ---
