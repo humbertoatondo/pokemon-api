@@ -60,6 +60,7 @@ func TestComparePokemons(t *testing.T) {
 		assert.Equal(t, resBody.ComparisonResults.ReceivesHalfDamage, expectedBody.ComparisonResults.ReceivesHalfDamage)
 		assert.Equal(t, resBody.ComparisonResults.ReceivesNoDamage, expectedBody.ComparisonResults.ReceivesNoDamage)
 	})
+	// asd
 
 	t.Run("Comparing pikachu with ditto should return [false, false, false]", func(t *testing.T) {
 
