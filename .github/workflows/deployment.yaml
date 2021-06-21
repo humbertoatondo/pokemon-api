@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       test_api:
-        image: humbertoatondo/pokemon-api-test:latest
+        image: humbertoatondo/pokemon-api-test
         ports:
           - 5000:5000
         options: >-
