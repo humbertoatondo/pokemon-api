@@ -5,7 +5,6 @@
 Pokemon API is a Rest API built using Golang which uses the [PokeAPI](https://pokeapi.co/) to make comparisons between two or more pokemons, providing us with useful insight.
 If you want to check the hosted version of this project [click here](http://143.244.208.45:5000/).
 
-
 ## Table of Contents
 
 - [Installation](#installation)
@@ -98,23 +97,30 @@ minikube service pokemon-api-service
 an url will be open in your browser directing you the running rest api.
 
 ## Testing <a name="testing"/>
+
 There are two different types of tests in this project, unit and integration testing. Because of this we need to test the program using tags.
 To run the unit test just run the following command.
+
 ```bash
 go test -v ./... --tags=unit
 ```
 
 Running the integration test is a little different, first we have to run the project as we will normally run it locally.
+
 ```bash
 go run .
 ```
+
 And now that an instance of the project is running we can now run the integration tests with the following command.
+
 ```bash
 go test -v ./... --tags=integration
 ```
 
 ## Deployment <a name="deployment"/>
+
 Everytime we make a commit in the main branch the following pipeline will run:
+
 1. The unit tests will run to check that the tested functions are working as expected.
 2. Then, a test image of the pokemon api will be built and deployed to Docker Hub, this will help us when running the integration test.
 3. After the test image of the pokemon api is on Docker Hub it will proceed to build a container with that image and run the integration tests. Note that integration tests are being run locally and all functionality that requires third partie apis are mocke.
@@ -122,8 +128,45 @@ Everytime we make a commit in the main branch the following pipeline will run:
 
 ## Endpoints <a name="endpoints"/>
 
-|  Argument |   |   |   |   |
-|---|---|---|---|---|
-|   |   |   |   |   |
-|   |   |   |   |   |
-|   |   |   |   |   |
+route:
+
+```bash
+/comparePokemons?pokemon1=<pokemonName>&pokemon2=<pokemonName>
+```
+
+| Argument | Description                                        |
+| -------- | -------------------------------------------------- |
+| pokemon1 | Name of the first pokemon to compare in lowercase  |
+| pokemon2 | Name of the second pokemon to compare in lowercase |
+
+This endpoint receives 2 pokemon names and returns an object containing comparison_results which stores:
+
+- deals_double_damage: [BOOL] Returns true if pokemon1 can deal double damage to pokemon2.
+- receives_half_damage: [BOOL] Returns true if pokemon1 can receive half damage from pokemon2.
+- receives_no_damage: [BOOL] Retusn true if pokemon1 can receive no damage from pokemon2
+
+```bash
+/comparePokemonsMoves?pokemon=<pokemonName>&pokemon=<pokemonName>
+```
+
+| Argument | Description                                                                                          |
+| -------- | ---------------------------------------------------------------------------------------------------- |
+| pokemon1 | Name of the first pokemon to compare in lowercase. It can receive unlimited number of pokemon names. |
+| limit    | Sets the limit of common moves the endpoint should return.                                           |
+| lang     | Specifies the language in which you want the pokemon moves to be return in.                          |
+
+This endpoint receive N number of pokemon names and returns an object with an array containing the common moves between all the pokemons.
+You can limit the quantity of the moves you want to get with the limit argument and specify the language of the moves with the lang argument.
+
+List of available languages:
+
+- ja-Hrkt
+- ko
+- zh-Hant
+- fr
+- de
+- es
+- it
+- en
+- ja
+- zh-Hans
