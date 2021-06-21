@@ -1,0 +1,20 @@
+{
+  "name": "ditto",
+  "moves": [
+    {
+      "move": {
+        "name": "transform",
+        "url": "http://localhost:5000/move/144/"
+      }
+    }
+  ],
+  "types": [
+    {
+      "slot": 1,
+      "type": {
+        "name": "normal",
+        "url": "http://localhost:5000/type/1/"
+      }
+    }
+  ]
+}

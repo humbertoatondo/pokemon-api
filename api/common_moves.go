@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/humbertoatondo/pokemon-api/pokemon"
@@ -55,8 +56,7 @@ func (app *App) comparePokemonMoves(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pokemonURL := "https://pokeapi.co/api/v2/pokemon/"
-	pokemons, err := pokemon.GetPokemonsFromListOfNames(keys, pokemonURL, httpGet)
+	pokemons, err := pokemon.GetPokemonsFromListOfNames(keys, os.Getenv("pokemon_url"), httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return

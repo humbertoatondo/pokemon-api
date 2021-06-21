@@ -11,7 +11,7 @@ import (
 type Pokemon struct {
 	Name  string        `json:"name"`
 	Types []pokemonType `json:"types"`
-	Moves []pokemonMove `json:"moves"`
+	Moves []PokemonMove `json:"moves"`
 }
 
 // Stores the pokemonTypeData of a pokemon.
@@ -26,12 +26,12 @@ type pokemonTypeData struct {
 }
 
 // Stores the name of a pokemon move
-type pokemonMove struct {
+type PokemonMove struct {
 	Move MoveData `json:"move"`
 }
 
 // Stores the transalated name of a pokemon move.
-type transMoves struct {
+type TransMoves struct {
 	Names []MoveData `json:"names"`
 }
 
@@ -50,7 +50,7 @@ type CompareResults struct {
 }
 
 // Stores the results obtained by the different damage realtions.
-type pokemonDamageRelations struct {
+type PDamageRelations struct {
 	DamageRelations damageRelations `json:"damage_relations"`
 }
 
@@ -117,19 +117,18 @@ func (pokemon *Pokemon) CompareTo(rivalPokemon Pokemon, httpGet helpers.HTTPGet)
 
 		defer response.Body.Close()
 
-		var pokemonDamageRelations = pokemonDamageRelations{}
-		if err = json.NewDecoder(response.Body).Decode(&pokemonDamageRelations); err != nil {
+		var pDamageRelations = PDamageRelations{}
+		if err = json.NewDecoder(response.Body).Decode(&pDamageRelations); err != nil {
 			return CompareResults{}, err
 		}
 
-		dealsDoubleDamage := pokemonDamageRelations.compareDamages(rivalPokemon, doubleDamageDealt)
-		receivesHalfDamage := pokemonDamageRelations.compareDamages(rivalPokemon, halfDamageReceived)
-		receivesNoDamage := pokemonDamageRelations.compareDamages(rivalPokemon, noDamageReceived)
+		dealsDoubleDamage := pDamageRelations.compareDamages(rivalPokemon, doubleDamageDealt)
+		receivesHalfDamage := pDamageRelations.compareDamages(rivalPokemon, halfDamageReceived)
+		receivesNoDamage := pDamageRelations.compareDamages(rivalPokemon, noDamageReceived)
 
 		compareResults.DealsDoubleDamage = compareResults.DealsDoubleDamage || dealsDoubleDamage
 		compareResults.ReceivesHalfDamage = compareResults.ReceivesHalfDamage || receivesHalfDamage
 		compareResults.ReceivesNoDamage = compareResults.ReceivesNoDamage || receivesNoDamage
-
 	}
 
 	return compareResults, nil
@@ -140,7 +139,7 @@ func (pokemon *Pokemon) CompareTo(rivalPokemon Pokemon, httpGet helpers.HTTPGet)
 // For example:
 //   - If dType is set to doubleDamageDealt then we will return true if the current pokemon
 //     can deal double damage to the rival pokemon, else return false.
-func (pokemonDamageRelations *pokemonDamageRelations) compareDamages(rivalPokemon Pokemon, dType damageType) bool {
+func (pokemonDamageRelations *PDamageRelations) compareDamages(rivalPokemon Pokemon, dType damageType) bool {
 	var rivalPokemonTypeList = rivalPokemon.Types
 	var damageTypeNameList []damageTypeName
 
@@ -224,10 +223,6 @@ func GetCommonMovesForPokemons(pokemons []Pokemon, limit int) []MoveData {
 // TranslatePokemonMoves receives a list of pokemon moves and a language and translate
 // every move to the desired language.
 func TranslatePokemonMoves(pokemonMoves []MoveData, lang string, httpGet helpers.HTTPGet) ([]MoveData, error) {
-	if lang == "en" {
-		return pokemonMoves, nil
-	}
-
 	langIdx := helpers.LanguageMap[lang]
 
 	for i, pokemonMove := range pokemonMoves {
@@ -239,7 +234,7 @@ func TranslatePokemonMoves(pokemonMoves []MoveData, lang string, httpGet helpers
 
 		defer response.Body.Close()
 
-		var tMoves transMoves
+		var tMoves TransMoves
 		if err = json.NewDecoder(response.Body).Decode(&tMoves); err != nil {
 			return make([]MoveData, 0), err
 		}

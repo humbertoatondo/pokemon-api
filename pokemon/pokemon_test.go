@@ -75,7 +75,7 @@ func TestCompareDamages(t *testing.T) {
 
 	t.Run("Pikachu can't deal double damage to lucario", func(t *testing.T) {
 		response, _ := httpGetPokemonDamageRelations("pikachu")
-		var pDamageRelations = pokemonDamageRelations{}
+		var pDamageRelations = PDamageRelations{}
 		if err := json.NewDecoder(response.Body).Decode(&pDamageRelations); err != nil {
 			t.Error("Error decoding response from 'httpGetPokemonDamageRelations' request.")
 		}
@@ -93,7 +93,7 @@ func TestCompareDamages(t *testing.T) {
 
 	t.Run("Pikachu can receive half damage from lucario", func(t *testing.T) {
 		response, _ := httpGetPokemonDamageRelations("pikachu")
-		var pDamageRelations = pokemonDamageRelations{}
+		var pDamageRelations = PDamageRelations{}
 		if err := json.NewDecoder(response.Body).Decode(&pDamageRelations); err != nil {
 			t.Error("Error decoding response from 'httpGetPokemonDamageRelations' request.")
 		}
@@ -111,7 +111,7 @@ func TestCompareDamages(t *testing.T) {
 
 	t.Run("Pikachu can't receive no damage from lucario", func(t *testing.T) {
 		response, _ := httpGetPokemonDamageRelations("pikachu")
-		var pDamageRelations = pokemonDamageRelations{}
+		var pDamageRelations = PDamageRelations{}
 		if err := json.NewDecoder(response.Body).Decode(&pDamageRelations); err != nil {
 			t.Error("Error decoding response from 'httpGetPokemonDamageRelations' request.")
 		}
@@ -292,7 +292,7 @@ var httpGetPokemonDamageRelations = func(pokemonName string) (*http.Response, er
 
 	noDamageFromList := []damageTypeName{}
 
-	pDamageRelations := pokemonDamageRelations{
+	pDamageRelations := PDamageRelations{
 		DamageRelations: damageRelations{
 			DoubleDamageToList: doubleDamageToList,
 			HalfDamageFromList: halfDamageFromList,
@@ -309,11 +309,11 @@ var httpGetPokemonDamageRelations = func(pokemonName string) (*http.Response, er
 }
 
 var httpTranslateMove = func(pokeMove string) (*http.Response, error) {
-	var tMoves transMoves
+	var tMoves TransMoves
 
 	switch pokeMove {
 	case "thunder-punch":
-		tMoves = transMoves{
+		tMoves = TransMoves{
 			Names: []MoveData{
 				MoveData{Name: "かみなりパンチ", URL: "https://pokeapi.co/api/v2/move/9/"},
 				MoveData{Name: "번개펀치", URL: "https://pokeapi.co/api/v2/move/9/"},
@@ -350,9 +350,9 @@ func createPokemon(name string, types []pokemonTypeData, moves []MoveData) Pokem
 
 	// Create moves and set pokemon moves.
 	movesSize := len(moves)
-	pokemonMoves := make([]pokemonMove, movesSize)
+	pokemonMoves := make([]PokemonMove, movesSize)
 	for i, pMove := range moves {
-		pokeMove := pokemonMove{
+		pokeMove := PokemonMove{
 			Move: pMove,
 		}
 		pokemonMoves[i] = pokeMove

@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/humbertoatondo/pokemon-api/helpers"
 	"github.com/humbertoatondo/pokemon-api/pokemon"
@@ -34,22 +35,21 @@ func (app *App) comparePokemons(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pokemonURL := "https://pokeapi.co/api/v2/pokemon/"
 	// Get pokemons
-	pokemon1, err := pokemon.GetPokemon(pokemon1Name, pokemonURL, httpGet)
+	pokemon1, err := pokemon.GetPokemon(pokemon1Name, os.Getenv("pokemon_url"), httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return
 	}
 
-	pokemon2, err := pokemon.GetPokemon(pokemon2Name, pokemonURL, httpGet)
+	pokemon2, err := pokemon.GetPokemon(pokemon2Name, os.Getenv("pokemon_url"), httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return
 	}
 
 	// Compare pokemons damage relations
-	comparisionResults, err := pokemon1.CompareTo(pokemon2, httpGet)
+	comparisonResults, err := pokemon1.CompareTo(pokemon2, httpGet)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusForbidden, err.Error())
 		return
@@ -58,7 +58,7 @@ func (app *App) comparePokemons(w http.ResponseWriter, r *http.Request) {
 	advantageResult := advantage{
 		Pokemon:            pokemon1,
 		RivalPokemon:       pokemon2,
-		ComparisionResults: comparisionResults,
+		ComparisionResults: comparisonResults,
 	}
 
 	helpers.RespondWithJSON(w, 200, advantageResult)

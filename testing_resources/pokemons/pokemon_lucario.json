@@ -1,0 +1,51 @@
+{
+  "name": "lucario",
+  "moves": [
+    {
+      "move": {
+        "name": "ice-punch",
+        "url": "http://localhost:5000/move/8/"
+      }
+    },
+    {
+      "move": {
+        "name": "thunder-punch",
+        "url": "http://localhost:5000/move/9/"
+      }
+    },
+    {
+      "move": {
+        "name": "swords-dance",
+        "url": "http://localhost:5000/move/14/"
+      }
+    },
+    {
+      "move": {
+        "name": "headbutt",
+        "url": "http://localhost:5000/move/29/"
+      }
+    },
+    {
+      "move": {
+        "name": "roar",
+        "url": "http://localhost:5000/move/46/"
+      }
+    }
+  ],
+  "types": [
+    {
+      "slot": 1,
+      "type": {
+        "name": "fighting",
+        "url": "http://localhost:5000/type/2/"
+      }
+    },
+    {
+      "slot": 2,
+      "type": {
+        "name": "steel",
+        "url": "http://localhost:5000/type/9/"
+      }
+    }
+  ]
+}
