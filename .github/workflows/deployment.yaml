@@ -40,10 +40,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build container image
-        run: docker build -t humbertoatondo/pokemon-api:latest -f dockerfiles/test/Dockerfile .
+        run: docker build -t humbertoatondo/pokemon-api:$(echo $GITHUB_SHA | head -c7) -f dockerfiles/test/Dockerfile .
 
       - name: Docker push to Docker Hub
-        run: docker push humbertoatondo/pokemon-api:latest
+        run: docker push humbertoatondo/pokemon-api:$(echo $GITHUB_SHA | head -c7)
 
   integration_tests:
     name: Run integration tests
@@ -77,10 +77,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build container image
-        run: docker build -t humbertoatondo/pokemon-api:latest -f dockerfiles/development/Dockerfile .
+        run: docker build -t humbertoatondo/pokemon-api:$(echo $GITHUB_SHA | head -c7) -f dockerfiles/development/Dockerfile .
 
       - name: Docker push to Docker Hub
-        run: docker push humbertoatondo/pokemon-api:latest
+        run: docker push humbertoatondo/pokemon-api:$(echo $GITHUB_SHA | head -c7)
 
   deploy_cluster:
     name: Deploy the K8s cluster in DigitalOcean

@@ -32,7 +32,9 @@ func TestComparePokemons(t *testing.T) {
 		var expectedBody advantage
 		json.Unmarshal(fileBytes, &expectedBody)
 
-		assert.Equal(t, resBody, expectedBody)
+		assert.Equal(t, resBody.ComparisonResults.DealsDoubleDamage, expectedBody.ComparisonResults.DealsDoubleDamage)
+		assert.Equal(t, resBody.ComparisonResults.ReceivesHalfDamage, expectedBody.ComparisonResults.ReceivesHalfDamage)
+		assert.Equal(t, resBody.ComparisonResults.ReceivesNoDamage, expectedBody.ComparisonResults.ReceivesNoDamage)
 	})
 
 	t.Run("Comparing lucario with lucario should return [true, true, false]", func(t *testing.T) {
@@ -54,7 +56,9 @@ func TestComparePokemons(t *testing.T) {
 		var expectedBody advantage
 		json.Unmarshal(fileBytes, &expectedBody)
 
-		assert.Equal(t, resBody, expectedBody)
+		assert.Equal(t, resBody.ComparisonResults.DealsDoubleDamage, expectedBody.ComparisonResults.DealsDoubleDamage)
+		assert.Equal(t, resBody.ComparisonResults.ReceivesHalfDamage, expectedBody.ComparisonResults.ReceivesHalfDamage)
+		assert.Equal(t, resBody.ComparisonResults.ReceivesNoDamage, expectedBody.ComparisonResults.ReceivesNoDamage)
 	})
 
 	t.Run("Comparing pikachu with ditto should return [false, false, false]", func(t *testing.T) {
@@ -76,7 +80,9 @@ func TestComparePokemons(t *testing.T) {
 		var expectedBody advantage
 		json.Unmarshal(fileBytes, &expectedBody)
 
-		assert.Equal(t, resBody, expectedBody)
+		assert.Equal(t, resBody.ComparisonResults.DealsDoubleDamage, expectedBody.ComparisonResults.DealsDoubleDamage)
+		assert.Equal(t, resBody.ComparisonResults.ReceivesHalfDamage, expectedBody.ComparisonResults.ReceivesHalfDamage)
+		assert.Equal(t, resBody.ComparisonResults.ReceivesNoDamage, expectedBody.ComparisonResults.ReceivesNoDamage)
 	})
 
 }
