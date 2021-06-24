@@ -40,10 +40,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build container image
-        run: docker build -t humbertoatondo/pokemon-api-test:latest -f dockerfiles/test/Dockerfile .
+        run: docker build -t humbertoatondo/pokemon-api-test:$(echo $GITHUB_SHA | head -c7) -f dockerfiles/test/Dockerfile .
 
       - name: Docker push to Docker Hub
-        run: docker push humbertoatondo/pokemon-api-test:latest
+        run: docker push humbertoatondo/pokemon-api-test:$(echo $GITHUB_SHA | head -c7)
 
   integration_tests:
     name: Run integration tests

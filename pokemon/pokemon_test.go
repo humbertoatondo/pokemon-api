@@ -171,7 +171,7 @@ func TestGetCommonMovesForPokemons(t *testing.T) {
 		t.Error("Error decoding response from 'httpGetPokemon' request.")
 	}
 
-	t.Run("fdsgsfd", func(t *testing.T) {
+	t.Run("Common moves from lucario and pikachu should retrun a list with 2 elements", func(t *testing.T) {
 		pokemonList := []Pokemon{pokemon1, pokemon3}
 		commonMoves := GetCommonMovesForPokemons(pokemonList, 10)
 

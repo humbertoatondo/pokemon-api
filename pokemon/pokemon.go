@@ -194,13 +194,13 @@ func GetCommonMovesForPokemons(pokemons []Pokemon, limit int) []MoveData {
 	// Build commonMoves map
 	for i, pokemon := range pokemons {
 		for _, pMove := range pokemon.Moves {
-			pokemonName := pMove.Move.Name
-			_, ok := movesCountMap[pokemonName]
+			moveName := pMove.Move.Name
+			_, ok := movesCountMap[moveName]
 			if i > 0 && !ok {
 				continue
 			} else {
-				movesCountMap[pokemonName]++
-				movesMap[pokemonName] = pMove.Move
+				movesCountMap[moveName]++
+				movesMap[moveName] = pMove.Move
 			}
 		}
 	}
