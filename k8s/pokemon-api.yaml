@@ -17,7 +17,7 @@ spec:
       containers:
         - name: pokemon-api
           image: humbertoatondo/pokemon-api
-          # command: ["/app/main"]
+          command: ["/app/main"]
           ports:
             - containerPort: 5000
 ---
