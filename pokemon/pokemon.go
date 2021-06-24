@@ -25,12 +25,12 @@ type pokemonTypeData struct {
 	URL  string `json:"url"`
 }
 
-// Stores the name of a pokemon move
+// PokemonMove stores the name of a pokemon move
 type PokemonMove struct {
 	Move MoveData `json:"move"`
 }
 
-// Stores the transalated name of a pokemon move.
+// TransMoves stores the transalated name of a pokemon move.
 type TransMoves struct {
 	Names []MoveData `json:"names"`
 }
@@ -49,7 +49,7 @@ type CompareResults struct {
 	ReceivesNoDamage   bool `json:"receives_no_damage"`
 }
 
-// Stores the results obtained by the different damage realtions.
+// PDamageRelations stores the results obtained by the different damage realtions.
 type PDamageRelations struct {
 	DamageRelations damageRelations `json:"damage_relations"`
 }
