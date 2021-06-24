@@ -95,23 +95,26 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Build container image
-        run: docker build -t registry.digitalocean.com/humbertoatondo/pokemon-api:$(echo $GITHUB_SHA | head -c7) -f dockerfiles/development/Dockerfile .
+      # - name: Build container image
+      #   run: docker build -t registry.digitalocean.com/humbertoatondo/pokemon-api:$(echo $GITHUB_SHA | head -c7) -f dockerfiles/development/Dockerfile .
 
-      - name: Log in to DigitalOcean Container Registry with short-lived credentials
-        run: doctl registry login --expiry-seconds 1200
+      # - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      #   run: doctl registry login --expiry-seconds 1200
 
-      - name: Push image to DigitalOcean Container Registry
-        run: docker push registry.digitalocean.com/humbertoatondo/pokemon-api:$(echo $GITHUB_SHA | head -c7)
+      # - name: Push image to DigitalOcean Container Registry
+      #   run: docker push registry.digitalocean.com/humbertoatondo/pokemon-api:$(echo $GITHUB_SHA | head -c7)
 
-      - name: Update deployment file
-        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/humbertoatondo/pokemon-api:'${TAG}'|' $GITHUB_WORKSPACE/k8s/digital_ocean_deployment.yaml
+      # - name: Update deployment file
+      #   run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/humbertoatondo/pokemon-api:'${TAG}'|' $GITHUB_WORKSPACE/k8s/digital_ocean_deployment.yaml
 
-      - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-pokemon-api
+      # - name: Save DigitalOcean kubeconfig with short-lived credentials
+      #   run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-pokemon-api
+
+      # - name: Deploy to DigitalOcean Kubernetes
+      #   run: kubectl apply -f $GITHUB_WORKSPACE/k8s/digital_ocean_deployment.yaml
 
       - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f $GITHUB_WORKSPACE/k8s/digital_ocean_deployment.yaml
+        run: kubectl apply -f $GITHUB_WORKSPACE/k8s/pokemon-api.yaml
 
       - name: Verify deployment
         run: kubectl rollout status deployment/pokemon-api
