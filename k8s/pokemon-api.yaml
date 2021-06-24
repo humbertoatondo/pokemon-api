@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pokemon-api
+  name: pokemon-api-deployment
   labels:
     app: pokemon-api
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: pokemon-api

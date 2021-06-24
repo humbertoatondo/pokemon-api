@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pokemon-api
+  name: pokemon-api-deployment
   labels:
     app: pokemon-api
 spec:
